@@ -96,6 +96,33 @@ function AboutPage() {
         </div>
       </section>
 
+      <section className="bg-[image:var(--gradient-soft)]">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Areas of Expertise</h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            Dr. Kishor brings deep expertise across the breadth of orthopedic medicine, refined over 30+ years.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              "Fracture management & trauma care",
+              "Joint pain — knee, hip, shoulder, back",
+              "Arthritis evaluation & long-term care",
+              "Osteoporosis & geriatric mobility",
+              "Sports injuries & rehabilitation",
+              "Pediatric orthopedic concerns",
+              "Post-operative recovery & follow-up",
+              "Conservative & non-surgical treatment",
+              "Pre-surgical second opinions",
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                <span className="text-sm text-foreground">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="border-t border-border bg-card">
         <div className="mx-auto max-w-6xl px-4 py-14 text-center">
           <h2 className="text-2xl font-semibold text-foreground">Our Promise to Patients</h2>
