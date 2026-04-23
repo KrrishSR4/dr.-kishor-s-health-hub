@@ -44,8 +44,8 @@ const slots = ["10:30 AM", "11:30 AM", "12:30 PM", "06:00 PM", "07:00 PM", "08:0
 function AppointmentPage() {
   const [submitted, setSubmitted] = useState(false);
   const [type, setType] = useState<"consultation" | "checkup">("consultation");
-  const [clinic, setClinic] = useState(clinics[0].id);
-  const [time, setTime] = useState(slots[0]);
+  const [clinic, setClinic] = useState<string>(clinics[0].id);
+  const [time, setTime] = useState<string>(slots[0]);
   const today = new Date().toISOString().split("T")[0];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
