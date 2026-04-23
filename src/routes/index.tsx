@@ -79,9 +79,9 @@ function HomePage() {
               </span>
             </h1>
             <p className="mt-5 max-w-xl text-base leading-relaxed text-muted-foreground">
-              Retired Orthopedic Surgeon and former Prabhari (In-Charge) at Darbhanga Anumandal
-              Hospital. Now providing personal consultations and medical checkups at his private clinics —
-              with the same care, precision and patience patients have trusted for decades.
+              Retired Orthopedic Surgeon with <strong className="text-foreground">30+ years</strong> of experience and former
+              Prabhari (In-Charge) at Darbhanga Anumandal Hospital. Now providing personal consultations and
+              medical checkups at his private clinics — with the same care, precision and patience patients have trusted for three decades.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/appointment">
@@ -180,7 +180,7 @@ function HomePage() {
               patient gets time to be heard and a clear plan to feel better.
             </p>
             <ul className="mt-6 space-y-3 text-sm text-foreground">
-              <li className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 text-accent" /> Decades of surgical & clinical experience</li>
+              <li className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 text-accent" /> 30+ years of surgical &amp; clinical experience</li>
               <li className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 text-accent" /> Personalised, evidence-based recommendations</li>
               <li className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 text-accent" /> Transparent advice — no unnecessary procedures</li>
             </ul>
@@ -192,6 +192,112 @@ function HomePage() {
                 </Button>
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose Us */}
+      <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
+        <div className="text-center">
+          <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-primary">
+            <ShieldCheck className="h-3.5 w-3.5" /> Why Patients Choose Dr. Kishor
+          </span>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            Experience you can feel from the first visit
+          </h2>
+          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+            Three decades of orthopedic practice distilled into calm, accurate diagnoses and treatment plans
+            that genuinely work — for patients of every age.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {whyUs.map((w) => (
+            <Card key={w.title} className="p-6 transition-[var(--transition-smooth)] hover:-translate-y-1 hover:shadow-[var(--shadow-card)]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[image:var(--gradient-primary)] text-primary-foreground shadow-[var(--shadow-soft)]">
+                <w.icon className="h-5 w-5" />
+              </div>
+              <h3 className="mt-4 text-base font-semibold text-foreground">{w.title}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{w.desc}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Patient Journey */}
+      <section className="border-y border-border bg-card">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">A simple 3-step journey</h2>
+            <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">From booking to recovery — we keep it stress-free.</p>
+          </div>
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            {[
+              { step: "01", title: "Book Online", desc: "Fill the appointment form — your details go straight to our WhatsApp for instant confirmation." },
+              { step: "02", title: "Visit the Clinic", desc: "Meet Dr. Kishor for an unhurried consultation. Bring previous reports if any." },
+              { step: "03", title: "Personalised Plan", desc: "Receive a clear diagnosis, treatment plan and follow-up schedule tailored to you." },
+            ].map((s) => (
+              <Card key={s.step} className="relative p-6">
+                <div className="text-4xl font-bold text-primary/20">{s.step}</div>
+                <h3 className="mt-2 text-lg font-semibold text-foreground">{s.title}</h3>
+                <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="mx-auto max-w-6xl px-4 py-16 md:py-20">
+        <div className="text-center">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">What patients say</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
+            Real stories from patients across Darbhanga and beyond.
+          </p>
+        </div>
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
+          {testimonials.map((t) => (
+            <Card key={t.name} className="p-6">
+              <Quote className="h-7 w-7 text-primary/40" />
+              <p className="mt-3 text-sm leading-relaxed text-foreground">“{t.text}”</p>
+              <div className="mt-5 border-t border-border pt-4">
+                <div className="text-sm font-semibold text-foreground">{t.name}</div>
+                <div className="text-xs text-muted-foreground">{t.role}</div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Map */}
+      <LocationMap title="Visit Our Clinic — Satellite View" />
+
+      {/* Final CTA */}
+      <section className="bg-[image:var(--gradient-primary)]">
+        <div className="mx-auto max-w-6xl px-4 py-14 text-center text-primary-foreground">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">Ready to feel better?</h2>
+          <p className="mx-auto mt-3 max-w-2xl text-primary-foreground/90">
+            Book a personal consultation today — or chat with us directly on WhatsApp.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <Link to="/appointment">
+              <Button size="lg" variant="secondary" className="text-foreground">
+                <CalendarCheck className="mr-2 h-5 w-5" /> Book Appointment
+              </Button>
+            </Link>
+            <a
+              href={buildWhatsAppUrl("Hi Dr. Naval Kishor's clinic, I'd like to book a consultation.")}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button size="lg" variant="outline" className="border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                <MessageCircle className="mr-2 h-5 w-5" /> WhatsApp Us
+              </Button>
+            </a>
+            <a href={`tel:${SITE.phoneRaw}`}>
+              <Button size="lg" variant="outline" className="border-primary-foreground/40 bg-transparent text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground">
+                <Phone className="mr-2 h-5 w-5" /> {SITE.phone}
+              </Button>
+            </a>
           </div>
         </div>
       </section>

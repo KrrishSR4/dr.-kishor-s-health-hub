@@ -41,8 +41,9 @@ function AboutPage() {
             </h1>
             <p className="mt-2 text-lg text-primary">MBBS • Orthopedic Ex-Surgeon</p>
             <p className="mt-5 text-muted-foreground">
-              Dr. Naval Kishor is a retired orthopedic surgeon with decades of clinical and surgical
-              experience across India’s public health system. He previously served as
+              Dr. Naval Kishor is a retired orthopedic surgeon with
+              <strong className="text-foreground"> over 30 years</strong> of clinical and surgical experience across
+              India’s public health system. He previously served as
               <strong className="text-foreground"> Prabhari (In-Charge) at Darbhanga Anumandal Hospital</strong>,
               where he led patient care, surgical services and hospital operations.
             </p>
@@ -51,6 +52,20 @@ function AboutPage() {
               private clinics. His patients value his calm bedside manner, careful diagnostic approach
               and refusal to recommend anything that isn’t truly needed.
             </p>
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="rounded-xl border border-border bg-card p-3 text-center">
+                <div className="text-2xl font-bold text-primary">30+</div>
+                <div className="text-[11px] text-muted-foreground">Years</div>
+              </div>
+              <div className="rounded-xl border border-border bg-card p-3 text-center">
+                <div className="text-2xl font-bold text-primary">50k+</div>
+                <div className="text-[11px] text-muted-foreground">Patients</div>
+              </div>
+              <div className="rounded-xl border border-border bg-card p-3 text-center">
+                <div className="text-2xl font-bold text-primary">2</div>
+                <div className="text-[11px] text-muted-foreground">Clinics</div>
+              </div>
+            </div>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/appointment">
                 <Button className="bg-[image:var(--gradient-primary)] shadow-[var(--shadow-soft)] hover:opacity-95">
