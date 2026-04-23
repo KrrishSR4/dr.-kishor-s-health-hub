@@ -1,5 +1,6 @@
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter } from "./SiteFooter";
+import { WhatsAppFloat } from "./WhatsAppFloat";
 
 export function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -7,6 +8,7 @@ export function SiteLayout({ children }: { children: React.ReactNode }) {
       <SiteHeader />
       <main className="flex-1">{children}</main>
       <SiteFooter />
+      <WhatsAppFloat />
     </div>
   );
 }

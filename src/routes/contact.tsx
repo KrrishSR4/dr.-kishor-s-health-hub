@@ -5,19 +5,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
+import { Phone, Mail, MapPin, Send, CheckCircle2, MessageCircle, Clock } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { LocationMap } from "@/components/LocationMap";
+import { SITE, buildWhatsAppUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Dr. Naval Kishor" },
-      { name: "description", content: "Reach Dr. Naval Kishor's clinic by phone, email, or send an inquiry online." },
+      { name: "description", content: "Reach Dr. Naval Kishor's clinic by phone, WhatsApp, email, or send an inquiry online." },
       { property: "og:title", content: "Contact Dr. Naval Kishor" },
-      { property: "og:description", content: "Phone, email and inquiry form for orthopedic consultation." },
+      { property: "og:description", content: "Phone, WhatsApp, email and inquiry form for orthopedic consultation." },
     ],
   }),
   component: ContactPage,
@@ -36,16 +38,21 @@ function ContactPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const parsed = schema.safeParse({
-      name: fd.get("name"),
-      email: fd.get("email"),
-      phone: fd.get("phone"),
-      message: fd.get("message"),
-    });
+    const data = {
+      name: String(fd.get("name") || ""),
+      email: String(fd.get("email") || ""),
+      phone: String(fd.get("phone") || ""),
+      message: String(fd.get("message") || ""),
+    };
+    const parsed = schema.safeParse(data);
     if (!parsed.success) {
       toast.error(parsed.error.issues[0].message);
       return;
     }
+    const msg =
+      `*New Inquiry — Dr. Naval Kishor Website*\n` +
+      `Name: ${data.name}\nPhone: ${data.phone}\nEmail: ${data.email}\n\n${data.message}`;
+    window.open(buildWhatsAppUrl(msg), "_blank", "noopener,noreferrer");
     setSent(true);
   };
 
@@ -56,7 +63,8 @@ function ContactPage() {
         <div className="mx-auto max-w-6xl px-4 py-14 text-center md:py-16">
           <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">Contact Us</h1>
           <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-            Have a question or need guidance? Reach out and our team will get back to you quickly.
+            Have a question or need guidance? Reach out by phone, WhatsApp or email — we usually
+            respond within a few hours during clinic days.
           </p>
         </div>
       </section>
@@ -70,7 +78,25 @@ function ContactPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">Phone</h3>
-                <a href="tel:+919876543210" className="text-sm text-muted-foreground hover:text-primary">+91 98765 43210</a>
+                <a href={`tel:${SITE.phoneRaw}`} className="text-sm text-muted-foreground hover:text-primary">{SITE.phone}</a>
+              </div>
+            </div>
+          </Card>
+          <Card className="p-6">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-primary">
+                <MessageCircle className="h-5 w-5" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-foreground">WhatsApp</h3>
+                <a
+                  href={buildWhatsAppUrl("Hi Dr. Naval Kishor's clinic, I'd like to inquire about a consultation.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary"
+                >
+                  Chat instantly — {SITE.phone}
+                </a>
               </div>
             </div>
           </Card>
@@ -81,7 +107,7 @@ function ContactPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">Email</h3>
-                <a href="mailto:care@drnavalkishor.in" className="text-sm text-muted-foreground hover:text-primary">care@drnavalkishor.in</a>
+                <a href={`mailto:${SITE.email}`} className="text-sm text-muted-foreground hover:text-primary">{SITE.email}</a>
               </div>
             </div>
           </Card>
@@ -92,7 +118,20 @@ function ContactPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">Location</h3>
-                <p className="text-sm text-muted-foreground">Darbhanga, Bihar — 2 personal clinics</p>
+                <p className="text-sm text-muted-foreground">
+                  {SITE.location.lat}, {SITE.location.lng}
+                </p>
+              </div>
+            </div>
+          </Card>
+          <Card className="p-6">
+            <div className="flex items-start gap-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-secondary text-primary">
+                <Clock className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-foreground">Consultation Hours</h3>
+                <p className="text-sm text-muted-foreground">Mon – Sat • 10:00 AM – 1:30 PM &amp; 5:30 PM – 8:30 PM</p>
               </div>
             </div>
           </Card>
@@ -104,12 +143,16 @@ function ContactPage() {
               <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent/15 text-accent">
                 <CheckCircle2 className="h-7 w-7" />
               </div>
-              <h3 className="mt-4 text-xl font-semibold text-foreground">Message sent</h3>
+              <h3 className="mt-4 text-xl font-semibold text-foreground">Message sent on WhatsApp</h3>
               <p className="mt-2 text-sm text-muted-foreground">We’ll respond to your inquiry shortly.</p>
               <Button variant="outline" className="mt-5" onClick={() => setSent(false)}>Send another</Button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <h2 className="text-2xl font-semibold text-foreground">Send us a message</h2>
+                <p className="mt-1 text-sm text-muted-foreground">Your inquiry will be delivered to our clinic on WhatsApp.</p>
+              </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <Label htmlFor="cname">Name</Label>
@@ -138,6 +181,8 @@ function ContactPage() {
           )}
         </Card>
       </section>
+
+      <LocationMap title="Visit Our Clinic" />
     </SiteLayout>
   );
 }

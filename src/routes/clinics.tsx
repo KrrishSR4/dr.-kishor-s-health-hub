@@ -2,8 +2,10 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { MapPin, Clock, Phone, CalendarCheck } from "lucide-react";
+import { MapPin, Clock, Phone, CalendarCheck, Navigation } from "lucide-react";
 import { clinics } from "@/lib/clinics";
+import { LocationMap } from "@/components/LocationMap";
+import { mapsDirectionsUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/clinics")({
   head: () => ({
@@ -56,13 +58,13 @@ function ClinicsPage() {
                   </Button>
                 </Link>
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(c.address)}`}
+                  href={mapsDirectionsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1"
                 >
                   <Button variant="outline" className="w-full">
-                    <MapPin className="mr-2 h-4 w-4" /> Directions
+                    <Navigation className="mr-2 h-4 w-4" /> View Directions
                   </Button>
                 </a>
               </div>
@@ -70,6 +72,8 @@ function ClinicsPage() {
           ))}
         </div>
       </section>
+
+      <LocationMap title="Clinic Location — Satellite View" />
     </SiteLayout>
   );
 }

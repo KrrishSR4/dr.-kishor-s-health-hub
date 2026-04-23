@@ -41,8 +41,9 @@ function AboutPage() {
             </h1>
             <p className="mt-2 text-lg text-primary">MBBS • Orthopedic Ex-Surgeon</p>
             <p className="mt-5 text-muted-foreground">
-              Dr. Naval Kishor is a retired orthopedic surgeon with decades of clinical and surgical
-              experience across India’s public health system. He previously served as
+              Dr. Naval Kishor is a retired orthopedic surgeon with
+              <strong className="text-foreground"> over 30 years</strong> of clinical and surgical experience across
+              India’s public health system. He previously served as
               <strong className="text-foreground"> Prabhari (In-Charge) at Darbhanga Anumandal Hospital</strong>,
               where he led patient care, surgical services and hospital operations.
             </p>
@@ -51,6 +52,20 @@ function AboutPage() {
               private clinics. His patients value his calm bedside manner, careful diagnostic approach
               and refusal to recommend anything that isn’t truly needed.
             </p>
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              <div className="rounded-xl border border-border bg-card p-3 text-center">
+                <div className="text-2xl font-bold text-primary">30+</div>
+                <div className="text-[11px] text-muted-foreground">Years</div>
+              </div>
+              <div className="rounded-xl border border-border bg-card p-3 text-center">
+                <div className="text-2xl font-bold text-primary">50k+</div>
+                <div className="text-[11px] text-muted-foreground">Patients</div>
+              </div>
+              <div className="rounded-xl border border-border bg-card p-3 text-center">
+                <div className="text-2xl font-bold text-primary">2</div>
+                <div className="text-[11px] text-muted-foreground">Clinics</div>
+              </div>
+            </div>
             <div className="mt-7 flex flex-wrap gap-3">
               <Link to="/appointment">
                 <Button className="bg-[image:var(--gradient-primary)] shadow-[var(--shadow-soft)] hover:opacity-95">
@@ -78,6 +93,33 @@ function AboutPage() {
               <p className="mt-1 text-sm text-muted-foreground">{m.desc}</p>
             </Card>
           ))}
+        </div>
+      </section>
+
+      <section className="bg-[image:var(--gradient-soft)]">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <h2 className="text-3xl font-bold tracking-tight text-foreground">Areas of Expertise</h2>
+          <p className="mt-3 max-w-2xl text-muted-foreground">
+            Dr. Kishor brings deep expertise across the breadth of orthopedic medicine, refined over 30+ years.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              "Fracture management & trauma care",
+              "Joint pain — knee, hip, shoulder, back",
+              "Arthritis evaluation & long-term care",
+              "Osteoporosis & geriatric mobility",
+              "Sports injuries & rehabilitation",
+              "Pediatric orthopedic concerns",
+              "Post-operative recovery & follow-up",
+              "Conservative & non-surgical treatment",
+              "Pre-surgical second opinions",
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
+                <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
+                <span className="text-sm text-foreground">{item}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
