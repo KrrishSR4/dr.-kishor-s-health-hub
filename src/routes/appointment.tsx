@@ -9,20 +9,21 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { CalendarCheck, CheckCircle2 } from "lucide-react";
+import { CalendarCheck, CheckCircle2, MessageCircle, ShieldCheck, Clock, UserCheck } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { clinics } from "@/lib/clinics";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
+import { buildWhatsAppUrl, SITE } from "@/lib/site";
 
 export const Route = createFileRoute("/appointment")({
   head: () => ({
     meta: [
       { title: "Book Appointment — Dr. Naval Kishor" },
-      { name: "description", content: "Book a personal consultation or medical checkup with Dr. Naval Kishor online." },
+      { name: "description", content: "Book a personal consultation or medical checkup with Dr. Naval Kishor online. Instant WhatsApp confirmation." },
       { property: "og:title", content: "Book an Appointment — Dr. Naval Kishor" },
-      { property: "og:description", content: "Online appointment booking for orthopedic consultation." },
+      { property: "og:description", content: "Online appointment booking with WhatsApp confirmation." },
     ],
   }),
   component: AppointmentPage,
@@ -51,20 +52,36 @@ function AppointmentPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const fd = new FormData(e.currentTarget);
-    const parsed = schema.safeParse({
-      name: fd.get("name"),
-      phone: fd.get("phone"),
-      email: fd.get("email") || "",
+    const data = {
+      name: String(fd.get("name") || ""),
+      phone: String(fd.get("phone") || ""),
+      email: String(fd.get("email") || ""),
       type,
       clinic,
-      date: fd.get("date"),
+      date: String(fd.get("date") || ""),
       time,
-      notes: fd.get("notes") || "",
-    });
+      notes: String(fd.get("notes") || ""),
+    };
+    const parsed = schema.safeParse(data);
     if (!parsed.success) {
       toast.error(parsed.error.issues[0].message);
       return;
     }
+    const clinicName = clinics.find((c) => c.id === data.clinic)?.name ?? data.clinic;
+    const message =
+      `*New Appointment Request — Dr. Naval Kishor*%0A` +
+      `--------------------------------%0A` +
+      `*Name:* ${data.name}%0A` +
+      `*Phone:* ${data.phone}%0A` +
+      (data.email ? `*Email:* ${data.email}%0A` : "") +
+      `*Type:* ${data.type === "consultation" ? "Personal Consultation" : "Medical Checkup"}%0A` +
+      `*Clinic:* ${clinicName}%0A` +
+      `*Date:* ${data.date}%0A` +
+      `*Time:* ${data.time}%0A` +
+      (data.notes ? `*Notes:* ${data.notes}%0A` : "");
+    const url = buildWhatsAppUrl(decodeURIComponent(message));
+    window.open(url, "_blank", "noopener,noreferrer");
+    toast.success("Opening WhatsApp to confirm your appointment…");
     setSubmitted(true);
   };
 
@@ -75,8 +92,36 @@ function AppointmentPage() {
         <div className="mx-auto max-w-6xl px-4 py-14 text-center md:py-16">
           <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">Book Appointment</h1>
           <p className="mx-auto mt-3 max-w-2xl text-muted-foreground">
-            Choose a personal consultation or a medical checkup. We’ll confirm your slot via phone.
+            Choose a personal consultation or a medical checkup. Your details will be sent
+            instantly via WhatsApp to <span className="font-medium text-foreground">{SITE.phone}</span> for confirmation.
           </p>
+        </div>
+      </section>
+
+      {/* Trust strip */}
+      <section className="border-y border-border bg-card">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-8 sm:grid-cols-3">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-primary"><MessageCircle className="h-5 w-5" /></div>
+            <div>
+              <div className="text-sm font-semibold text-foreground">Instant WhatsApp</div>
+              <div className="text-xs text-muted-foreground">Direct to clinic — no waiting on calls</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-primary"><Clock className="h-5 w-5" /></div>
+            <div>
+              <div className="text-sm font-semibold text-foreground">Same-day Slots</div>
+              <div className="text-xs text-muted-foreground">Subject to availability at chosen clinic</div>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-secondary text-primary"><ShieldCheck className="h-5 w-5" /></div>
+            <div>
+              <div className="text-sm font-semibold text-foreground">Confidential</div>
+              <div className="text-xs text-muted-foreground">Your details stay private and secure</div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -86,13 +131,18 @@ function AppointmentPage() {
             <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent/15 text-accent">
               <CheckCircle2 className="h-7 w-7" />
             </div>
-            <h2 className="mt-5 text-2xl font-semibold text-foreground">Request received</h2>
+            <h2 className="mt-5 text-2xl font-semibold text-foreground">Request sent on WhatsApp</h2>
             <p className="mx-auto mt-2 max-w-md text-muted-foreground">
-              Thank you. Our team will call you shortly to confirm your appointment with Dr. Naval Kishor.
+              If WhatsApp didn't open automatically, tap the button below. Our team will confirm your slot shortly.
             </p>
-            <Button className="mt-6" variant="outline" onClick={() => setSubmitted(false)}>
-              Book another
-            </Button>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <a href={buildWhatsAppUrl("Hi, I just submitted an appointment request on your website.")} target="_blank" rel="noopener noreferrer">
+                <Button className="bg-[image:var(--gradient-primary)] shadow-[var(--shadow-soft)] hover:opacity-95">
+                  <MessageCircle className="mr-2 h-4 w-4" /> Open WhatsApp
+                </Button>
+              </a>
+              <Button variant="outline" onClick={() => setSubmitted(false)}>Book another</Button>
+            </div>
           </Card>
         ) : (
           <Card className="p-6 md:p-8">
@@ -181,11 +231,15 @@ function AppointmentPage() {
                 size="lg"
                 className="w-full bg-[image:var(--gradient-primary)] shadow-[var(--shadow-soft)] hover:opacity-95"
               >
-                <CalendarCheck className="mr-2 h-5 w-5" /> Request Appointment
+                <MessageCircle className="mr-2 h-5 w-5" /> Send via WhatsApp
               </Button>
               <p className="text-center text-xs text-muted-foreground">
-                Our team will call you to confirm your slot.
+                <CalendarCheck className="mr-1 inline h-3 w-3" />
+                Your request goes directly to our clinic on WhatsApp ({SITE.phone}).
               </p>
+              <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground">
+                <UserCheck className="h-3 w-3 text-accent" /> Trusted by 50,000+ patients across Bihar
+              </div>
             </form>
           </Card>
         )}
