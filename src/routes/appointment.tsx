@@ -44,6 +44,8 @@ const slots = ["10:30 AM", "11:30 AM", "12:30 PM", "06:00 PM", "07:00 PM", "08:0
 function AppointmentPage() {
   const [submitted, setSubmitted] = useState(false);
   const [type, setType] = useState<"consultation" | "checkup">("consultation");
+  const [clinic, setClinic] = useState(clinics[0].id);
+  const [time, setTime] = useState(slots[0]);
   const today = new Date().toISOString().split("T")[0];
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,9 +56,9 @@ function AppointmentPage() {
       phone: fd.get("phone"),
       email: fd.get("email") || "",
       type,
-      clinic: fd.get("clinic"),
+      clinic,
       date: fd.get("date"),
-      time: fd.get("time"),
+      time,
       notes: fd.get("notes") || "",
     });
     if (!parsed.success) {
@@ -137,7 +139,7 @@ function AppointmentPage() {
 
               <div>
                 <Label htmlFor="clinic">Preferred Clinic</Label>
-                <Select name="clinic" defaultValue={clinics[0].id}>
+                <Select value={clinic} onValueChange={setClinic}>
                   <SelectTrigger id="clinic" className="mt-1.5">
                     <SelectValue placeholder="Select clinic" />
                   </SelectTrigger>
@@ -156,7 +158,7 @@ function AppointmentPage() {
                 </div>
                 <div>
                   <Label htmlFor="time">Time Slot</Label>
-                  <Select name="time" defaultValue={slots[0]}>
+                  <Select value={time} onValueChange={setTime}>
                     <SelectTrigger id="time" className="mt-1.5">
                       <SelectValue placeholder="Pick a slot" />
                     </SelectTrigger>
