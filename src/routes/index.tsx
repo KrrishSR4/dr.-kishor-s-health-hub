@@ -70,7 +70,7 @@ function HomePage() {
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
           <div>
             <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-primary shadow-sm">
-              <ShieldCheck className="h-3.5 w-3.5" /> Trusted Orthopedic Care Since Decades
+              <ShieldCheck className="h-3.5 w-3.5" /> 30+ Years of Trusted Orthopedic Care
             </span>
             <h1 className="mt-5 text-4xl font-bold leading-tight tracking-tight text-foreground md:text-5xl">
               Dr. Naval Kishor
