@@ -147,7 +147,6 @@ function AppointmentPage() {
                     ))}
                   </SelectContent>
                 </Select>
-                <input type="hidden" name="clinic" value={clinics[0].id} />
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2">
@@ -157,7 +156,7 @@ function AppointmentPage() {
                 </div>
                 <div>
                   <Label htmlFor="time">Time Slot</Label>
-                  <Select name="time">
+                  <Select name="time" defaultValue={slots[0]}>
                     <SelectTrigger id="time" className="mt-1.5">
                       <SelectValue placeholder="Pick a slot" />
                     </SelectTrigger>
@@ -167,7 +166,6 @@ function AppointmentPage() {
                       ))}
                     </SelectContent>
                   </Select>
-                  <input type="hidden" name="time" value={slots[0]} />
                 </div>
               </div>
 
