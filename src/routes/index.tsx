@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
   Bone, HeartPulse, Stethoscope, ShieldCheck, Award, Users, Clock,
-  CalendarCheck, Activity, Hospital, ArrowRight,
+  CalendarCheck, Activity, Hospital, ArrowRight, Quote, MessageCircle, Phone,
 } from "lucide-react";
 import doctorPortrait from "@/assets/doctor-portrait.jpg";
 import clinicHero from "@/assets/clinic-hero.jpg";
+import { LocationMap } from "@/components/LocationMap";
+import { SITE, buildWhatsAppUrl } from "@/lib/site";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -29,10 +31,35 @@ const services = [
 ];
 
 const stats = [
-  { icon: Award, value: "35+", label: "Years of Experience" },
+  { icon: Award, value: "30+", label: "Years of Experience" },
   { icon: Users, value: "50,000+", label: "Patients Cared For" },
   { icon: Hospital, value: "2", label: "Personal Clinics" },
   { icon: ShieldCheck, value: "Ex In-Charge", label: "Govt. Hospital, Darbhanga" },
+];
+
+const whyUs = [
+  { icon: Award, title: "30+ Years of Expertise", desc: "Three decades of orthopedic surgery and consultation across government and private practice." },
+  { icon: ShieldCheck, title: "Govt. Hospital Leadership", desc: "Former Prabhari (In-Charge) at Darbhanga Anumandal Hospital — trusted by thousands." },
+  { icon: HeartPulse, title: "Patient-First Approach", desc: "Conservative treatment, no unnecessary procedures, and time for every question." },
+  { icon: Clock, title: "Easy Booking", desc: "Book in 30 seconds — your request is sent directly via WhatsApp for instant confirmation." },
+];
+
+const testimonials = [
+  {
+    name: "Ramesh Kumar",
+    role: "Patient, Darbhanga",
+    text: "Dr. Kishor diagnosed my knee problem when no one else could. His treatment helped me walk pain-free again after years.",
+  },
+  {
+    name: "Sunita Devi",
+    role: "Patient's Daughter",
+    text: "He treated my mother's hip fracture with such patience. We are forever grateful for his honest advice and care.",
+  },
+  {
+    name: "Ajay Singh",
+    role: "Sports Injury Patient",
+    text: "Recovered from a ligament tear in months. Dr. Kishor explains everything clearly and never rushes the consultation.",
+  },
 ];
 
 function HomePage() {
